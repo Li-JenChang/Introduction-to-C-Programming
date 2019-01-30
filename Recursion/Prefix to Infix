@@ -1,4 +1,4 @@
-// Convert Prefix into Infix
+// Convert Prefix Notation into Infix Notation and Calculate the Answer
 // Input Format: * + 2 3 + 4 + - 5 6 - 7 8       [prefix]
 // ((2 + 3) * ( 4 + ((5 - 6) + (7 - 8)))) = 10   [infix]
 
