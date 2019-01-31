@@ -1,0 +1,35 @@
+// Dynamically Allocate 2D Array
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(void)
+{
+    int ** pa;
+    int i, j;
+    int * x;
+    int row = 5, col = 7;
+    x = (int *) malloc(row * col * sizeof(int));
+    pa = (int **) malloc(row * sizeof(int *));
+    for (i = 0; i < row; i++) {
+        pa[i] = &x[col * i];
+    }
+
+    for (i = 0; i < row; i++) {
+        for (j = 0; j < col; j++) {
+            pa[i][j] = rand() % 35;
+        }
+    }
+    for (i = 0; i < row; i++) {
+        for (j = 0; j < col; j++) {
+            printf("%3d", pa[i][j]);
+        }
+        printf("\n");
+    }
+
+    free(x);
+    free(pa);
+
+    return 0;
+}
