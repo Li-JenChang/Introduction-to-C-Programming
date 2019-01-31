@@ -12,7 +12,8 @@
 /* Sample Input:
    int<<<h>>>_used<D_list<<<<linked_
    Sample Output:
-   hint_use_linked_list                 */
+   hint_use_linked_list
+*/
 
 #include<stdio.h>
 #include<ctype.h>
