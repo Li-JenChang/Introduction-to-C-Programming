@@ -26,33 +26,33 @@ int main(void)
     int data1[SIZE];
     double data2[SIZE];
     
-    for(int i = 0; i < SIZE; i++){
+    for (int i = 0; i < SIZE; i++) {
         data1[i] = rand() % SIZE;
         data2[i] = (double) rand() / RAND_MAX;     // Produce random numbers in range of 0 ~ 1
     }
 
     printf("original: ");
-    for(int i = 0; i < SIZE; i++){
+    for (int i = 0; i < SIZE; i++) {
         printf("%d ", data1[i]);
     }
     printf("\n");
 
     printf("  sorted: ");
     qsort(data1, SIZE, sizeof(int), compare_int);     // void qsort (void *array, size_t count, size_t size, comparison_fn_t compare);
-    for(i = 0; i < SIZE; i++){
+    for (int i = 0; i < SIZE; i++) {
         printf("%d ", data1[i]);
     }
     printf("\n");
 
     printf("original: ");
-    for(i = 0; i < SIZE; i++){
+    for (int i = 0; i < SIZE; i++) {
         printf("%.2f ", data2[i]);
     }
     printf("\n");
 
     printf("  sorted: ");
     qsort(data2, SIZE, sizeof(double), compare_double);
-    for(i = 0; i < SIZE; i++){
+    for (int i = 0; i < SIZE; i++) {
         printf("%.2f ", data2[i]);
     }
     printf("\n");
