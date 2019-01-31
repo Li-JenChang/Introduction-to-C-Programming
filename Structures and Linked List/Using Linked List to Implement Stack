@@ -1,0 +1,61 @@
+// Using Linked List to Implement Stack
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct t_node {
+    int val;
+    struct t_node * next;
+} Node;
+
+void push(Node ** hp, int x);
+int pop(Node ** hp);
+void show(Node * head);
+
+int main(void)
+{
+    Node * head = NULL;     // 需初始化為 NULL，第一次 push 才會正確
+    int x;
+    push(&head, 3);
+    push(&head, 5);
+    push(&head, 7);
+    show(head);
+    x = pop(&head);
+    printf("%d\n", x);
+    show(head);
+
+    return 0;
+}
+
+void push(Node ** hp, int x)
+{
+    Node * p = (Node *) malloc(sizeof(Node));
+    p->val = x;
+    p->next = *hp;
+    *hp = p;
+}
+
+int pop(Node ** hp)
+{
+    Node * p = *hp;
+    int x;
+    if (*hp == NULL) return 0;
+    *hp = p->next;
+    x = p->val;
+    free(p);
+    return x;
+}
+
+void show(Node * head)
+{
+    if (head == NULL) {
+        printf("The stack is empty.\n");
+    }
+    else {
+        while (head != NULL) {
+            printf("%d->", head->val);
+            head = head->next;
+        }
+        printf("NULL.\n");
+    }
+}
