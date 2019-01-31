@@ -1,0 +1,117 @@
+/* Input Format:
+   The sequence you records follows the following rules:
+   1. Character ‘>’ represents right shifting the cursor. If the cursor is located at the back of the sentence, it does nothing.
+   2. Character ‘<’ represents left shifting the cursor. If the cursor is located at the front of the sentence, it does nothing.
+   3. The capital letter ‘D’ represents deleting a character. If there is no character after the cursor, it does nothing.
+   4. The lowercase letter from ‘a’ to ‘z’ represents typing a lowercase character (same as your record).
+   5. The underline symbol ‘_' represents typing ‘_’.
+   6. After typing a character, the cursor will locate at the back of the character that has just been typed.
+   There is only a single line contains many characters, representing your record.                                                */
+/* Output Format:
+   Output a line representing the sentence that has been typed.     */
+/* Sample Input:
+   int<<<h>>>_used<D_list<<<<linked_
+   Sample Output:
+   hint_use_linked_list                 */
+
+#include<stdio.h>
+#include<ctype.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct _node {
+	char data;
+	struct _node * prev;
+	struct _node * next;
+} Node;
+
+void insert(Node ** now, char c);
+void left_shift(Node ** now);
+void right_shift(Node ** now);
+void del_next_char(Node ** now);
+void process(Node ** now, char test_c);
+
+int main(void)
+{
+	Node * head = (Node *) malloc(sizeof(Node));     // 頭的位置固定 前面沒人 後面可能有
+	Node * now;
+	head->next = NULL;
+	head->prev = NULL;
+	head->data = '\0';
+	now = head;
+
+	char test_c;
+
+	while ((test_c = getchar()) != EOF) {
+		process(&now, test_c);
+	}
+
+	Node * temp_print = head->next;
+	while (temp_print != NULL) {
+		printf("%c", temp_print->data);
+		temp_print = temp_print->next;
+	}
+	printf("\n");
+	return 0;
+}
+
+void insert(Node ** now, char c)
+{
+	Node * p = (Node *) malloc(sizeof(Node));
+	p->data = c;
+	if ((*now)->next != NULL) {          // 後面有字
+		p->prev = *now;
+		p->next = (*now)->next;
+		(*now)->next->prev = p;
+		(*now)->next = p;
+		(*now) = p;
+	}
+	else if ((*now)->next == NULL) {     // 第一個字或接在字串尾端
+		p->prev = *now;
+		p->next = NULL;
+		(*now)->next = p;
+		(*now) = p;
+	}
+
+}
+
+void process(Node ** now, char test_c)
+{
+	if (islower(test_c) || test_c == '_') {
+		insert(now, test_c);
+	}
+	else if (test_c == '<' && (*now)->prev != NULL) {
+		left_shift(now);
+	}
+	else if (test_c == '>' && (*now)->next != NULL) {
+		right_shift(now);
+	}
+	else if (test_c == 'D' && (*now)->next != NULL) {
+		del_next_char(now);
+	}
+}
+
+void left_shift(Node ** now)
+{
+	(*now) = (*now)->prev;
+}
+
+void right_shift(Node ** now)
+{
+	(*now) = (*now)->next;
+}
+
+void del_next_char(Node ** now)
+{
+	Node * temp = (*now)->next;
+
+	if (temp->next != NULL) {          //刪掉的字元後面還有字元
+		temp->next->prev = (*now);
+		(*now)->next = temp->next;
+		free(temp);
+	}
+	else if (temp->next == NULL) {     //刪掉的是最後一個字元
+		(*now)->next = NULL;
+		free(temp);
+	}
+}
