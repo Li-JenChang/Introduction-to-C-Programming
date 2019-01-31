@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#define SIZE 1000
+
+int cmp(const void * a, const void * b)
+{
+    const double * pa = (const double *) a;
+    const double * pb = (const double *) b;
+    if (*pa > *pb) return 1;
+    else if (*pa < *pb) return -1;
+    else return 0;
+}
+void sort(void * a, size_t num, size_t wd, int (*) (const void *, const void *));
+
+int main(void)
+{
+    double * b;
+    int i;
+    time_t start, end;
+    b = (double *) malloc(SIZE * sizeof(double));
+    for (i = 0; i < SIZE; i++) {
+        b[i] = (double) rand() / RAND_MAX;
+    }
+    printf("before sorting: \n");
+    for (i = 0; i < SIZE; i++) {
+        printf("%lf\n", b[i]);
+    }
+    start = clock();
+    sort(b, SIZE, sizeof(double), cmp);
+    printf("after sorting: \n");
+    end = clock();
+    printf("time: %lf\n", (double) (end - start) / CLOCKS_PER_SEC);     // Print out the time it takes to finish the sorting
+    for (i = 0; i < SIZE; i++) {
+        printf("%lf\n", b[i]);
+    }
+
+    free(b);
+    return 0;
+}
+
+void sort(void * a, size_t num, size_t wd, int (*cmp) (const void *, const void *))
+{
+    char * b = (char *) a;
+    char * temp;
+    temp = (char *) malloc(wd);
+    for (int i = 0; i < num; i++) {
+        for (int j = i + 1; j < num; j++) {
+            if (cmp(b + i * wd, b + j * wd) > 0) {
+                memcpy(temp, b + i * wd, wd);        // void * memcpy(void *restrict to, const void *restrict from, size_t size);
+                memcpy(b + i * wd, b + j * wd, wd);
+                memcpy(b + j * wd, temp, wd);
+            }
+        }
+    }
+
+    free(temp);
+}
