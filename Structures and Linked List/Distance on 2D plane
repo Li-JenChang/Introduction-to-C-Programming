@@ -1,0 +1,62 @@
+// Distance on 2D plane
+/* Input Format:
+   The first line contains an integer M, indicating how many points you should read.
+   For the next M lines, each line has two integers, indicating the point's location x and y.
+   The next line contains an integer N, indicating the number of the pairs of chosen two points.
+   And the next N lines, each line contains two integers, which are two indices representing two specific points needed to be calculated
+   for Euclidean distance. (Notice that the first point is indexed 0, and the second point is indexed 1, and so on...)     */
+/* Output Format:
+   Ouput has N lines. Each line contains a floating number, indicating the Euclidan distance of two specific points.     */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+typedef struct {
+    int x;
+    int y;
+} Point;
+
+Point * ones_vec_1(int length);
+float compute_distance(Point * a, int first_id, int second_id);
+
+int main(void)
+{
+   Point * point_array;
+   int i, length, N;
+   float ans;
+
+   scanf("%d", &length);
+   // Give point_array memory and get first element address
+   point_array = ones_vec_1(length);
+
+   scanf("%d", &N);
+   for (i = 0; i < N; i++) {
+      int first, second;
+      scanf("%d %d", &first, &second);
+      // Compute distance of two points
+      ans = compute_distance(point_array, first, second);
+      printf("%.3f\n", ans);
+   }
+
+   return 0;
+}
+
+Point * ones_vec_1(int length)
+{
+    Point * ptr = (Point *) malloc(length * sizeof(Point));
+    for (int i = 0; i < length; i++) {
+        scanf("%d%d", &ptr[i].x, &ptr[i].y);
+    }
+    return ptr;
+}
+
+float compute_distance(Point * a, int first_id, int second_id)
+{
+    float ans;
+    Point first_p, second_p;
+    first_p = a[first_id];
+    second_p = a[second_id];
+    ans = (float) sqrt(pow(first_p.x - second_p.x, 2) + pow(first_p.y - second_p.y, 2));
+    return ans;
+}
