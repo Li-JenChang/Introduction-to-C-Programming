@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(void)
+{
+    int * a;
+    int num, i;
+    scanf("%d", &num);
+    a = (int *) malloc(num * sizeof(int));     // void * malloc(size_t)
+    if (a == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
+    for (i = 0; i < num; i++) {
+        a[i] = rand() % num;     // *(a + i) = rand() % num;
+    }
+
+    i = rand() % num;
+    printf("%d %d\n", i, a[i]);
+
+    free(a);    // 每個 malloc 都要有對應的 free 返還記憶體位置(避免 memory leak)
+
+    return 0;
+}
