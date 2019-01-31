@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(void)
+{
+    int * a;
+    int num, i;
+    scanf("%d", &num);
+    a = (int *) malloc(num * sizeof(int));
+    if (a == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
+    for (i = 0; i < num; i++) {
+        a[i] = rand() % num;
+    }
+
+    i = rand() % num;
+    printf("%d %d\n", i, a[i]);
+
+    printf("before free: %p\n", a);
+    free(a);
+    printf("after free: %p\n", a);     // 記憶體位置已返還，但 a 的值不會改變
+    a = NULL;     // To avoid dangling pointer
+
+    return 0;
+}
