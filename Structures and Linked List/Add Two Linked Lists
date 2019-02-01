@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct _Node {
+    int data;
+    struct _Node * next;
+} Node;
+
+void Create_List(Node ** head, int x);
+Node * Add_List(Node * head_a, Node * head_b);
+void Print_List(Node * head);
+void Free_List(Node * head);
+
+int main() {
+    Node * head_a = NULL, * head_b = NULL;
+    int data;
+
+    while (1) {                          // Read List a
+        scanf("%d", &data);
+        if (data >= 0) {
+            Create_List(&head_a, data);
+        } 
+        else break;
+    }
+    while (1) {                          // Read List b
+        scanf("%d", &data);
+        if (data >= 0) {
+            Create_List(&head_b, data);
+        } 
+        else break;
+    }
+
+    Node * head = Add_List(head_a, head_b);
+
+    Print_List(head_a);
+    Print_List(head_b);
+    Print_List(head);
+
+    Free_List(head_a);
+    Free_List(head_b);
+    Free_List(head);
+
+    return 0;
+}
+
+void Create_List(Node ** head, int x)
+{
+    Node * p = (Node *) malloc(sizeof(Node));
+    Node * temp = *head;
+    p->data = x;
+    p->next = NULL;
+    if (*head == NULL) *head = p;
+    else {
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = p;
+    }
+}
+
+Node * Add_List(Node * head_a, Node * head_b)
+{
+    Node * head = NULL;
+    Node * temp = NULL;
+    while (head_a != NULL || head_b != NULL) {
+        Node * p = (Node *) malloc(sizeof(Node));
+        if (head_a == NULL)
+            p->data = head_b->data;
+        else if (head_b == NULL)
+            p->data = head_a->data;
+        else
+            p->data = head_a->data + head_b->data;
+        p->next = NULL;
+        if (head == NULL) {
+            head = p;
+            temp = head;
+        }
+        else {
+            while(temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = p;
+        }
+        if (head_a != NULL) head_a = head_a->next;
+        if (head_b != NULL) head_b = head_b->next;
+    }
+    return head;
+}
+
+void Print_List(Node * head)
+{
+    if (head != NULL) {
+        while (head != NULL) {
+            printf("%d", head->data);
+            if (head->next != NULL)
+                printf("->");
+            head = head->next;
+        }
+        printf("\n");
+    }
+}
+
+void Free_List(Node * head)
+{
+    Node * temp;
+    if (head != NULL) {
+        while (head != NULL) {
+            temp = head->next;
+            free(head);
+            head = temp;
+        }
+    }
+}
