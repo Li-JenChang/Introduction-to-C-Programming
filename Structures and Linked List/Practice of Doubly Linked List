@@ -15,10 +15,10 @@
    hint_use_linked_list
 */
 
-#include<stdio.h>
-#include<ctype.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct _node {
 	char data;
